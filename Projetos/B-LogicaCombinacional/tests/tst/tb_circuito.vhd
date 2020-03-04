@@ -54,7 +54,7 @@ begin
 
     A <= '1'; B <= '1'; C <= '1';
     wait until clk='1' ;
-    assert(X = '1')  report "Falha em BCD=0" severity error;
+    assert(X = '0')  report "Falha em BCD=0" severity error;
 
     test_runner_cleanup(runner); -- Simulacao acaba aqui
 
