@@ -33,12 +33,13 @@ entity ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
-			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
+			f:     in STD_LOGIC_VECTOR(1 downto 0);
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
-			saida: out STD_LOGIC_VECTOR(15 downto 0) -- saída de dados da ALU
-	);
+			saida: out STD_LOGIC_VECTOR(15 downto 0); -- saída de dados da ALU
+			carry: out STD_LOGIC
+		);
 end entity;
 
 architecture  rtl OF alu is
@@ -47,7 +48,7 @@ architecture  rtl OF alu is
   -- utilizados nesse modulo.
 
 	component zerador16 IS
-		port(
+		port (
 			z   : in STD_LOGIC;
 			a   : in STD_LOGIC_VECTOR(15 downto 0);
 			y   : out STD_LOGIC_VECTOR(15 downto 0)
@@ -55,7 +56,7 @@ architecture  rtl OF alu is
 	end component;
 
 	component inversor16 is
-		port(
+		port (
 			z   : in STD_LOGIC;
 			a   : in STD_LOGIC_VECTOR(15 downto 0);
 			y   : out STD_LOGIC_VECTOR(15 downto 0)
@@ -63,44 +64,55 @@ architecture  rtl OF alu is
 	end component;
 
 	component Add16 is
-		port(
+		port (
 			a   :  in STD_LOGIC_VECTOR(15 downto 0);
 			b   :  in STD_LOGIC_VECTOR(15 downto 0);
+			c	:  out std_logic;
 			q   :  out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
 	component And16 is
 		port (
-			a:   in  STD_LOGIC_VECTOR(15 downto 0);
-			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			q:   out STD_LOGIC_VECTOR(15 downto 0)
+			a	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			b	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			q	:   out STD_LOGIC_VECTOR(15 downto 0)
+		);
+	end component;
+
+	component Xor16 is
+		port ( 
+			a	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			b	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			q	:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
 	component comparador16 is
-		port(
+		port (
 			a    : in STD_LOGIC_VECTOR(15 downto 0);
 			zr   : out STD_LOGIC;
 			ng   : out STD_LOGIC
     );
 	end component;
 
-	component Mux16 is
-		port (
-			a:   in  STD_LOGIC_VECTOR(15 downto 0);
-			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			sel: in  STD_LOGIC;
-			q:   out STD_LOGIC_VECTOR(15 downto 0)
+	component Mux4Way16 is
+		port ( 
+			a	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			b	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			c	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			d	:   in  STD_LOGIC_VECTOR(15 downto 0);
+			sel	:   in  STD_LOGIC_VECTOR(1 downto 0);
+			q	:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
 	-- signal existe para "ligar" as instancias. Ex: zyout esta associado a instancia zeradory e inversory
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,muxout,precomp: std_logic_vector(15 downto 0);
+   SIGNAL carryout: STD_LOGIC;
 
 begin
   
- 	 -- <instance_name> : <component_name> port map(...)
   	zeradorX: zerador16 port map (
 		z => zx,
 		a => x,
@@ -128,6 +140,8 @@ begin
 	adderXY: Add16 port map(
 		a => nxout,
 		b => nyout,
+		-- c => ?
+		carry => carryout,
 		q => adderout
 	);
 
@@ -137,9 +151,17 @@ begin
 		q => andout
 	);
 
-	muxXY: Mux16 port map(
+	xorXR: Xor16 port map(
+		a => nxout,
+		b => nyout,
+		q => xorout
+	);
+
+	muxXY: Mux4Way16 port map(
 		a => andout,
 		b => adderout,
+		c => xorout,
+		-- d => outra implementação (para A)
 		sel => f,
 		q => muxout
 	);
