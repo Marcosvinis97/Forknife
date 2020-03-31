@@ -47,5 +47,5 @@ begin
     SC12: FullAdder PORT MAP (vaium(11), a(12), b(12), q(12), vaium(12));
     SC13: FullAdder PORT MAP (vaium(12), a(13), b(13), q(13), vaium(13));
     SC14: FullAdder PORT MAP (vaium(13), a(14), b(14), q(14), vaium(14));
-    SC15: FullAdder PORT MAP (vaium(14), a(15), b(15), q(15), vaium(16));
+    SC15: FullAdder PORT MAP (vaium(14), a(15), b(15), q(15), vaium(15));
 end architecture;
