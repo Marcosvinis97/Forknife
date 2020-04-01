@@ -12,7 +12,7 @@ entity Add16 is
 	port(
 		a   :  in STD_LOGIC_VECTOR(15 downto 0);
     b   :  in STD_LOGIC_VECTOR(15 downto 0);
-    c   : out STD_LOGIC;
+    s   : out STD_LOGIC;
     q   : out STD_LOGIC_VECTOR(15 downto 0)
 	);
 end entity;
@@ -48,5 +48,5 @@ begin
     SC12: FullAdder PORT MAP (vaium(12), a(12), b(12), q(12), vaium(13));
     SC13: FullAdder PORT MAP (vaium(13), a(13), b(13), q(13), vaium(14));
     SC14: FullAdder PORT MAP (vaium(14), a(14), b(14), q(14), vaium(15));
-    SC15: FullAdder PORT MAP (vaium(15), a(15), b(15), q(15), c);
+    SC15: FullAdder PORT MAP (vaium(15), a(15), b(15), q(15), s);
 end architecture;

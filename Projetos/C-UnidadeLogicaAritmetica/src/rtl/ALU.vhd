@@ -35,6 +35,7 @@ entity ALU is
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
 			f:     in STD_LOGIC_VECTOR(1 downto 0);
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
+			right: in STD_LOGIC;
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
 			saida: out STD_LOGIC_VECTOR(15 downto 0); -- saída de dados da ALU
@@ -67,7 +68,7 @@ architecture  rtl OF alu is
 		port (
 			a   :  in STD_LOGIC_VECTOR(15 downto 0);
 			b   :  in STD_LOGIC_VECTOR(15 downto 0);
-			c	:  out std_logic;
+			s	:  out std_logic;
 			q   :  out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
@@ -107,9 +108,16 @@ architecture  rtl OF alu is
 		);
 	end component;
 
+	component Shifter16 is
+		port(
+			a: in STD_LOGIC_VECTOR(15 downto 0);
+			dir: in STD_LOGIC;
+			q: out STD_LOGIC_VECTOR(15 downto 0)
+		);
+	end component;
+
 	-- signal existe para "ligar" as instancias. Ex: zyout esta associado a instancia zeradory e inversory
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,muxout,precomp: std_logic_vector(15 downto 0);
-   SIGNAL carryout: STD_LOGIC;
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,xorout,muxout,shiftout,precomp: std_logic_vector(15 downto 0);
 
 begin
   
@@ -140,9 +148,8 @@ begin
 	adderXY: Add16 port map(
 		a => nxout,
 		b => nyout,
-		-- c => ?
-		carry => carryout,
-		q => adderout
+		q => adderout,
+		s => carry
 	);
 
 	andXY: And16 port map(
@@ -158,11 +165,11 @@ begin
 	);
 
 	muxXY: Mux4Way16 port map(
+		sel => f,
 		a => andout,
 		b => adderout,
 		c => xorout,
-		-- d => outra implementação (para A)
-		sel => f,
+		d => shiftout,
 		q => muxout
 	);
 
@@ -176,6 +183,12 @@ begin
 		a => precomp,
 		zr => zr,
 		ng => ng
+	);
+
+	shiftX: Shifter16 port map(
+		a => nxout,
+		dir => right,
+		q => shiftout
 	);
 
 	saida <= precomp;
