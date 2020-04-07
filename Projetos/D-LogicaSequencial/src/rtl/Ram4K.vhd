@@ -59,15 +59,17 @@ architecture arch of Ram4K is
 	signal output0, output1, output2, output3, output4, output5, output6, output7 : STD_LOGIC_VECTOR(15 downto 0);
 
 begin
+	DEMUX0: DMux8Way port map(load, address(8 downto 6), load0, load1, load2, load3, load4, load5, load6, load7);
 
-	RAM512(in=in, load = a, adress = adress[0..8], out = q0); --adress está errado
-	RAM512(in=in, load = b, adress = adress[0..8], out = q1);
-	RAM512(in=in, load = c, adress = adress[0..8], out = q2);
-	RAM512(in=in, load = d, adress = adress[0..8], out = q3);
-	RAM512(in=in, load = e, adress = adress[0..8], out = q4);
-	RAM512(in=in, load = f, adress = adress[0..8], out = q5);
-	RAM512(in=in, load = g, adress = adress[0..8], out = q6);
-	RAM512(in=in, load = h, adress = adress[0..8], out = q7);
+	ram4k0: Ram512 port map (clock => clock, input => input, load => load0, address => address( 8 downto 0), output => output0);
+	ram4k1: Ram512 port map (clock => clock, input => input, load => load1, address => address( 8 downto 0), output => output1);
+	ram4k2: Ram512 port map (clock => clock, input => input, load => load2, address => address( 8 downto 0), output => output2);
+	ram4k3: Ram512 port map (clock => clock, input => input, load => load3, address => address( 8 downto 0), output => output3);
+	ram4k4: Ram512 port map (clock => clock, input => input, load => load4, address => address( 8 downto 0), output => output4);
+	ram4k5: Ram512 port map (clock => clock, input => input, load => load5, address => address( 8 downto 0), output => output5);
+	ram4k6: Ram512 port map (clock => clock, input => input, load => load6, address => address( 8 downto 0), output => output6);
+	ram4k7: Ram512 port map (clock => clock, input => input, load => load7, address => address( 8 downto 0), output => output7);
 
+	MUX0: Mux8Way16 port map(output0, output1, output2, output3, output4, output5, output6, output7, address(8 downto 6), output);
 
 end architecture;

@@ -13,6 +13,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use IEEE.NUMERIC_STD.ALL;
 
+use IEEE.std_logic_unsigned.all; --para somar
+
 entity PC is
     port(
         clock     : in  STD_LOGIC;
@@ -49,13 +51,13 @@ begin
 	process(reset,load,increment, input, output)
 		begin
 			if (reset = '1') 	then
-				output <= '0';
+				output <= output;  --output representando 0
 			elsif (load = '1') 	then
 				output <= input;
 			elsif (increment = '1') then
-				output <= output + 1;
+				output <= std_logic_vector( unsigned(output + 1) );
 			else
-				output <= output;
+				output <= output ;
 			end if;
 	end process;
 
