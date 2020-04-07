@@ -60,5 +60,14 @@ architecture arch of Ram4K is
 
 begin
 
+	RAM512(in=in, load = a, adress = adress[0..8], out = q0); --adress está errado
+	RAM512(in=in, load = b, adress = adress[0..8], out = q1);
+	RAM512(in=in, load = c, adress = adress[0..8], out = q2);
+	RAM512(in=in, load = d, adress = adress[0..8], out = q3);
+	RAM512(in=in, load = e, adress = adress[0..8], out = q4);
+	RAM512(in=in, load = f, adress = adress[0..8], out = q5);
+	RAM512(in=in, load = g, adress = adress[0..8], out = q6);
+	RAM512(in=in, load = h, adress = adress[0..8], out = q7);
+
 
 end architecture;

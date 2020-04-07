@@ -46,5 +46,17 @@ architecture arch of PC is
 
 begin
 
+	process(reset,load,increment, input, output)
+		begin
+			if (reset = '1') 	then
+				output <= '0';
+			elsif (load = '1') 	then
+				output <= input;
+			elsif (increment = '1') then
+				output <= output + 1;
+			else
+				output <= output;
+			end if;
+	end process;
 
 end architecture;
