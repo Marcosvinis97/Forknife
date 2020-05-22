@@ -22,7 +22,8 @@ architecture tb of tb_ControlUnit is
         muxALUI_A                   : out STD_LOGIC;                     -- mux que seleciona entre instrução e ALU para reg. A
         muxAM                       : out STD_LOGIC;                     -- mux que seleciona entre reg. A e Mem. RAM para ALU
         zx, nx, zy, ny, f, no       : out STD_LOGIC;                     -- sinais de controle da ALU
-        loadA, loadD, loadM, loadPC : out STD_LOGIC                      -- sinais de load do reg. A, reg. D, Mem. RAM e Program Counter
+        loadA, loadD, loadM, loadPC : out STD_LOGIC;                      -- sinais de load do reg. A, reg. D, Mem. RAM e Program Counter
+        loadS, muxSD                :out STD_LOGIC                      -- Rubrica B
         );
   end component;
 
@@ -33,10 +34,12 @@ architecture tb of tb_ControlUnit is
   signal muxALUI_A                   : STD_LOGIC := '0';
   signal zx, nx, zy, ny, f, no       : STD_LOGIC := '0';
   signal loadA, loadD,  loadM, loadPC : STD_LOGIC := '0';
+  signal loadS, muxSD : STD_LOGIC := '0';                                                     -- Rubrica B
+
 
 begin
 
-	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC);
+	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS, muxSD);
 
 	clk <= not clk after 100 ps;
 
@@ -44,11 +47,41 @@ begin
     begin
       test_runner_setup(runner, runner_cfg);
 
+----------------------------------------------------------------------------------------------
+------------------------------------------------- LAB ----------------------------------------
+----------------------------------------------------------------------------------------------
+
+-----------------------------------------------
+-- Teste: loadS -------------------------------------------------------------------Rubrica B
+-----------------------------------------------
+
+    instruction <= "10" & "0000000001000000";
+    wait until clk = '1';
+    assert(loadS = '1')
+      report "TESTE 4: LOAD S" severity error;
+
     -----------------------------------------------
-    -- LAB
+    -- Teste: muxSD -------------------------------------------------------------- Rubrica B
     -----------------------------------------------
 
-    -- Teste: loadD
+    instruction <= "10" & "0100000000000000";
+    wait until clk = '1';
+    assert(muxSD = '1')
+      report "TESTE 4: mux SD true" severity error;
+
+    -----------------------------------------------
+    -- Teste: muxSD--------------------------------------------------------------- Rubrica B
+    -----------------------------------------------
+
+    instruction <= "10" & "0000000000000000";
+    wait until clk = '1';
+    assert(muxSD = '0')
+      report "TESTE 4: mux SD falso" severity error;
+
+
+    -----------------------------------------------
+    -- Teste: loadA
+    -----------------------------------------------
     instruction <= "00" & "0111111111111111";
     wait until clk = '1';
     assert(loadD = '0')
@@ -58,8 +91,9 @@ begin
     wait until clk = '1';
     assert(loadD = '1')
       report "TESTE 2: LOAD D" severity error;
-
+    -----------------------------------------------
     -- Teste: loadM
+    -----------------------------------------------
     instruction <= "00" & "0111111111111111";
     wait until clk = '1';
     assert(loadM = '0')
