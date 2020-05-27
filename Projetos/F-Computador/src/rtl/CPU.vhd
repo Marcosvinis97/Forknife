@@ -127,4 +127,8 @@ begin
 
   PC_1 : pc port map (clock, '1', c_loadPC, reset, s_regAout, s_pcout);
 
+   --Conceito A
+   MUX_D : Mux16 port map (s_ALUout, instruction(15 downto 0), c_muxD, s_muxD_out);
+
+
 end architecture;
