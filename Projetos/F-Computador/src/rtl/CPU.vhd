@@ -80,6 +80,7 @@ architecture arch of CPU is
   signal c_muxALUI_A: STD_LOGIC;
   signal c_muxAM: STD_LOGIC;
   signal c_muxSD: STD_LOGIC; -- Sinal da muxSD (também deve ser acrescentado no ControlUnit) poderia ser o bit 14 da instrução
+  signal c_muxD: STD_LOGIC; -- Sinal do muxD (também deve ser acrescentado no ControlUnit) poderia ser o bit 15 da instrução
   signal c_zx: STD_LOGIC;
   signal c_nx: STD_LOGIC;
   signal c_zy: STD_LOGIC;
@@ -94,6 +95,7 @@ architecture arch of CPU is
   signal c_ng: std_logic := '0';
 
   signal s_muxALUI_Aout: STD_LOGIC_VECTOR(15 downto 0);
+  signal s_muxD_out: STD_LOGIC_VECTOR(15 downto 0); -- saida do mux D (CONCEITO A)
   signal s_muxAM_out: STD_LOGIC_VECTOR(15 downto 0);
   signal s_regAout: STD_LOGIC_VECTOR(15 downto 0);
   signal s_regDout: STD_LOGIC_VECTOR(15 downto 0);
@@ -113,7 +115,7 @@ begin
 
   REG_A : Register16 port map (clock, s_muxALUI_Aout, c_loadA, s_regAout);
 
-  REG_D : Register16 port map (clock, s_ALUout, c_loadD, s_regDout);
+  REG_D : Register16 port map (clock, s_muxD_out, c_loadD, s_regDout); -- regD agora recebe a saida do muxD
   
   REG_S : Register16 port map (clock, s_ALUout, c_loadD, s_regSout);
 
@@ -127,8 +129,7 @@ begin
 
   PC_1 : pc port map (clock, '1', c_loadPC, reset, s_regAout, s_pcout);
 
-   --Conceito A
-   MUX_D : Mux16 port map (s_ALUout, instruction(15 downto 0), c_muxD, s_muxD_out);
-
+  --Conceito A
+  MUX_D : Mux16 port map (s_ALUout, instruction(15 downto 0), c_muxD, s_muxD_out);
 
 end architecture;
