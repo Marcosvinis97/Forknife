@@ -9,35 +9,21 @@
 ; 4  % 3 = 1
 ; 10 % 7 = 3
 
-leaw $2, %A
-movw (%A), %D
- 
-while:
- 
-leaw $5, %A
-movw %D, (%A)
- 
-leaw $1, %A
-movw (%A), %D
- 
-leaw $1, %A
-subw (%A), %D, %D
- 
-leaw $1, %A
-movw %D, (%A)
- 
-leaw $end, %A
-je %D
+leaw $0, %A         ; A = 0 
+movw (%A), %D       ; D = ram[A|0]
+
+while:              ; loop principal
+leaw $1, %A         ; A = 1
+subw %D, (%A), %D   ; D = ram[1] - ram[A|0]
+leaw $end, %A       ; A = label[$end]
+jl %D              ; vai para label[$end] se D < 0
+nop                 
+
+leaw $2, %A         ; A = 2
+movw %D, (%A)       ; ram[A|2] = D (guarda o valor de D em ram[3])
+leaw $while, %A     ; A = label[$while]
+jg %D               ; vai para label[$while] se D > 0
 nop
-jle %D
+
+END:
 nop
- 
-leaw $while, %A
-jmp
-nop
- 
-end:
-leaw $5, %A
-movw (%A), %D
-leaw $0, %A
-movw %D, (%A)

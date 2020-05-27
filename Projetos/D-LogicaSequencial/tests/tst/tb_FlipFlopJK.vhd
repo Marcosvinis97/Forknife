@@ -37,8 +37,29 @@ begin
     test_runner_setup(runner, runner_cfg);
 
     -- IMPLEMENTE AQUI!
+    -- TESTE 1
+    j <= '0'; q <= '0'; 
     wait until clk'event and clk='0';
+    assert(q = '0')  report "Falha em teste: 0" severity error;
+    assert(notq = '1')  report "Falha em teste: 0" severity error;
 
+    -- TESTE 2
+    j <= '1'; q <= '0'; 
+    wait until clk'event and clk='0';
+    assert(q = '1')  report "Falha em teste: 0" severity error;
+    assert(notq = '0')  report "Falha em teste: 0" severity error;
+    -- TESTE 3
+    j <= '0'; q <= '1'; 
+    wait until clk'event and clk='0';
+    assert(q = '0')  report "Falha em teste: 0" severity error;
+    assert(notq = '1')  report "Falha em teste: 0" severity error;
+    -- TESTE 4
+    j <= '1'; q <= '1'; 
+    wait until clk'event and clk='0';
+    assert(q = '1')  report "Falha em teste: 0" severity error;
+    assert(notq = '0')  report "Falha em teste: 0" severity error;
+
+    
     -- finish
     wait until clk'event and clk='0';
     test_runner_cleanup(runner); -- Simulation ends here

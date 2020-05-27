@@ -26,4 +26,28 @@
 ;  RAM[14] = `?`
 ;  RAM[15] = NULL = 0x0000
 
+; RAM[0] armazena o tamanho 
+; esse contatdor deve ser zerado
+;contador para ir andando nas rans RAM 1
 
+
+; contador e armazenador de tamanho iniciado com zero
+leaw $0, %A
+movw %A, (%A)
+BACK:
+leaw $8, %A
+movw %A, %D
+leaw $0, %A
+addw (%A), %D, %A
+movw (%A), %D
+je
+nop
+leaw $0, %A
+movw (%A), %D
+incw %D
+leaw $0, %A
+movw %D, (%A)
+leaw $BACK, %A
+jmp
+nop 
+END:
