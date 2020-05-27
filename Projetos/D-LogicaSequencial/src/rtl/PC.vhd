@@ -35,12 +35,12 @@ architecture arch of PC is
           );
   end component;
 
-  component Register8 is
+  component Register16 is
       port(
           clock:   in STD_LOGIC;
-          input:   in STD_LOGIC_VECTOR(7 downto 0);
+          input:   in STD_LOGIC_VECTOR(15 downto 0);
           load:    in STD_LOGIC;
-          output: out STD_LOGIC_VECTOR(7 downto 0)
+          output: out STD_LOGIC_VECTOR(15 downto 0)
         );
     end component;
 
