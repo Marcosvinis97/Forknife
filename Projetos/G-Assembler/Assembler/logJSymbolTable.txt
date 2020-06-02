@@ -1,3 +1,0 @@
-OK  : testSymbolTable_addEntry
-OK  : testSymbolTable_repetitive
-OK  : testSymbolTable_initialization

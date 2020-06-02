@@ -58,8 +58,11 @@ public class Assemble {
                 /* TODO: implementar */
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
-            }
-            romAddress++;
+                if (!table.contains(label)){
+                    table.addEntry(label,table.getAddress(label));
+                }
+                romAddress++;
+
         }
         parser.close();
 
@@ -67,7 +70,7 @@ public class Assemble {
         // leaw $var1, %A
         // leaw $X, %A
         // para cada nova variável deve ser alocado um endereço,
-        // começando no RAM[15] e seguindo em diante.
+        // começando na RAM[15] e seguindo em diante.
         parser = new Parser(inputFile);
         int ramAddress = 15;
         while (parser.advance()){
@@ -78,6 +81,10 @@ public class Assemble {
                     // deve verificar se tal símbolo já existe na tabela,
                     // se não, deve inserir associando um endereço de
                     // memória RAM a ele.
+                    if (! table.contains(symbol)){
+                        table.addEntry(symbol,ramAddress);
+                        ramAddress ++;
+                    }
                 }
             }
         }
@@ -102,12 +109,14 @@ public class Assemble {
          * de instrução válida do nasm
          * seguindo o instruction set
          */
+
         while (parser.advance()){
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
                 case C_COMMAND:
                 break;
             case A_COMMAND:
+                instruction = parser.symbol()
                 break;
             default:
                 continue;
