@@ -59,7 +59,7 @@ public class Assemble {
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
                 if (!table.contains(label)){
-                    table.addEntry(label,table.getAddress(label));
+                    table.addEntry(label,romAddress);
                 }
                 romAddress++;
 
@@ -88,9 +88,11 @@ public class Assemble {
                 }
             }
         }
+        }
         parser.close();
         return table;
     }
+
 
     /**
      * Segundo passo para a geração do código de máquina
@@ -116,7 +118,6 @@ public class Assemble {
                 case C_COMMAND:
                 break;
             case A_COMMAND:
-                instruction = parser.symbol()
                 break;
             default:
                 continue;
