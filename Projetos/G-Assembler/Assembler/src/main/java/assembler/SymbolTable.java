@@ -62,6 +62,7 @@ public class SymbolTable {
      */
     //
     public void initialize() {
+        /* TODO: implementar */
         // Exemplo: Registradores Virtuais
         this.addEntry("R0", 0);
         this.addEntry("R1",1);
@@ -85,6 +86,5 @@ public class SymbolTable {
         this.addEntry("ARG",2);
         this.addEntry("THIS",3);
         this.addEntry("THAT",4);
-        /* TODO: implementar */
     }
 }
