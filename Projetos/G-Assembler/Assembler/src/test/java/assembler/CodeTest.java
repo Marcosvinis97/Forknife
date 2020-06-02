@@ -6,15 +6,8 @@
  */
 
 package assembler;
+
 import org.junit.Test;
-import org.junit.AfterClass;
-import org.junit.Rule;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 
 import static org.junit.Assert.assertTrue;
 
