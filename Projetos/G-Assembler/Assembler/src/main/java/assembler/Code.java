@@ -72,9 +72,6 @@ public class Code {
                 case "%A": return "000110000";
                 case "%D": return "000001100";
                 case "(%A)": return "001110000";
-                case "$1": return "000111111";
-                case "$0": return "000101010";
-                case  "$-1": return "000111010";
                 }
             case "notw": switch (mnemnonic[1]){
                 case "%D": return "000001101";
