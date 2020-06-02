@@ -33,7 +33,7 @@ public class Code {
                     case "%D":
                         if (mnemnonic[l - 2] == "%A") {
                             return "0111";
-                        } else if (mnemnonic[l - 2] == "(%A)") {
+                        } else if (mnemnonic[l - 2] == "(%A)" ) {
                         return "0110";
                     } else {
                             return nulo;
@@ -41,7 +41,7 @@ public class Code {
                     case "%A":
                         if (mnemnonic[l - 2] == "%D") {
                             return "0011";
-                        }  else if (mnemnonic[l - 2] == "(%A)") {
+                        }  else if (mnemnonic[l - 2] == "(%A)" || (mnemnonic[l - 2] == "%A")) {
                             return "0101";
                         } else {
                             return nulo;
@@ -49,8 +49,6 @@ public class Code {
                     case "(%A)":
                         if (mnemnonic[l - 2] == "%D") {
                             return "0110";
-                        } else if(mnemnonic[l - 2] == "%A") {
-                            return "0101";
                         } else {
                             return nulo;
                         }
