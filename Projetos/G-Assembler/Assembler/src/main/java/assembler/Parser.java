@@ -43,14 +43,10 @@ public class Parser {
      * @return Verdadeiro se ainda há instruções, Falso se as instruções terminaram.
      */
     public Boolean advance() {
-        Boolean proximo;
+        boolean proximo;
         try {
             currentLine = fileReader.readLine();
-            if (currentLine != null) {
-                proximo = true;
-            } else {
-                proximo = false;
-            }
+            proximo = currentLine != null;
             while (proximo) {
                 if (currentLine.length() == 0 || currentLine.charAt(0) == ';') {
                     currentLine = fileReader.readLine();
@@ -79,8 +75,10 @@ public class Parser {
     public String command() {
         int comment = currentLine.indexOf(";");
         if (comment != -1) {
-            currentLine = currentLine.substring(0, comment - 1).trim();
-        } else currentLine = currentLine.trim();
+            currentLine = currentLine.substring(0, comment).trim();
+        } else {
+            currentLine = currentLine.trim();
+        }
 
         return currentLine;
     }
@@ -113,13 +111,13 @@ public class Parser {
      */
     public String symbol(String command) {
         int start = command.indexOf("$");
-        int finish = command.indexOf(",");
-        String symbol = command.substring(start + 1, finish);
+        int end = command.indexOf(",");
+        String symbol = command.substring(start + 1, end).trim();
 
         if (commandType(command).equals(CommandType.A_COMMAND)) {
             return symbol;
         } else {
-            return "";
+            return null;
         }
     }
 
