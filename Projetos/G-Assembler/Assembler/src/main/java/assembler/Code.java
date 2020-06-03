@@ -42,17 +42,30 @@ public class Code {
             }
 
         } else if (l == 4) {
-            switch (mnemnonic[3]){
-                case "(%A)":
-                    return "0100";
-                case "%D":
-                    return "0010";
-                case "%A":
-                    return "0001";
-                default:
-                    return "0000";
+            if (!mnemnonic[0].equals("andw") && !mnemnonic[0].equals("orw") && !mnemnonic[0].equals("addw") && !mnemnonic[0].equals("subw") && !mnemnonic[0].equals("rsubw")) {
+                if (mnemnonic[2].equals("(%A)") && mnemnonic[3].equals("%D")) {
+                    return "0110";
+                } else if (mnemnonic[2].equals("(%A)") && mnemnonic[3].equals("%A")) {
+                    return "0101";
+                } else if (mnemnonic[2].equals("%D") && mnemnonic[3].equals("(%A)")) {
+                    return "0110";
+                } else if (mnemnonic[2].equals("%D") && mnemnonic[3].equals("%A")) {
+                    return "0011";
+                } else if (mnemnonic[2].equals("%A") && mnemnonic[3].equals("(%A)")) {
+                    return "0101";
+                } else if (mnemnonic[2].equals("%A") && mnemnonic[3].equals("%D")) {
+                    return "0101";
+                }
+            } else {
+                switch (mnemnonic[3]) {
+                    case "%D":
+                        return "0010";
+                    case "%A":
+                        return "0001";
+                    case "(%A)":
+                        return "0100";
+                }
             }
-
         } else {
             return "0000";
         }
