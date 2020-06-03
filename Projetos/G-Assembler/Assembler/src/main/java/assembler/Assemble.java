@@ -117,13 +117,13 @@ public class Assemble {
             switch (parser.commandType(parser.command())) {
                 /* TODO: implementar */
                 case C_COMMAND:
-                    String local1 = Code.jump(instructionSet);
-                    System.out.println("jump: " + local1);
-                    String local2 = Code.dest(instructionSet);
-                    System.out.println("dest: " + local2);
-                    String local3 = Code.comp(instructionSet);
-                    System.out.println("comp: " + local3);
-                    instruction += "10" + local3 + local2 + local1;
+                    String jump = Code.jump(instructionSet);
+                    System.out.println("jump: " + jump);
+                    String destino = Code.dest(instructionSet);
+                    System.out.println("dest: " + destino);
+                    String calculo = Code.comp(instructionSet);
+                    System.out.println("comp: " + calculo);
+                    instruction += "10" + calculo + destino + jump;
 //                    System.out.println("instruction: " + instruction);
                     break;
 
