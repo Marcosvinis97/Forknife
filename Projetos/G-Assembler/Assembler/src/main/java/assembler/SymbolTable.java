@@ -50,7 +50,7 @@ public class SymbolTable {
     public Integer getAddress(String symbol) {
         /* TODO: implementar */
         return symbolTable.get(symbol);
-    	/* return null;*/
+        /* return null;*/
 
     }
 
