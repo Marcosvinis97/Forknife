@@ -10,6 +10,7 @@
 //  temp 3 = temp 0 / temp 1
 //
 //  assuma que temp 0> temp 1 e ambos inteiros
+// div
 // ----------------------------------
 
 function Main.main 0
